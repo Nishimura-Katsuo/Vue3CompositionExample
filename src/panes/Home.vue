@@ -1,6 +1,6 @@
 <script setup>
 
-import { ref, defineEmits } from 'vue'
+import { ref } from 'vue'
 
 const props = defineProps({
   title: String,
