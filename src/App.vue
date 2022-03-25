@@ -48,26 +48,24 @@ function rejectCount () {
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <div>
-    <a href="javascript:;" @click="state.route = 'home'">Home</a> | <a href="javascript:;" @click="state.route = 'youtube'">Youtube Pane</a> | <a href="javascript:;" @click="state.route = 'invalid'">Invalid Pane</a>
-  </div>
-  <div>Count is: {{ state.count }}</div>
-  <YoutubeEmbed v-if="state.route === 'youtube'" title="Otherworld" url="https://www.youtube.com/watch?v=mWYwmM23Sqs" :count="state.count" />
-  <Home v-else-if="state.route === 'home'" title="Event Demo" @monarchUpdate="updateCount" @monarchReject="rejectCount" :count="state.count" />
-  <div v-else>
-    <h1>Page Not Found</h1>
-    <p>This is an invalid route.</p>
+  <div class="container">
+    <div class="card my-2">
+      <div class="card-header text-center">
+        <a href="javascript:;" @click="state.route = 'home'">Home</a> | <a href="javascript:;" @click="state.route = 'youtube'">Youtube Pane</a> | <a href="javascript:;" @click="state.route = 'invalid'">Invalid Pane</a>
+        <div>Count is: {{ state.count }}</div>
+      </div>
+      <div class="card-body">
+        <YoutubeEmbed :visible="state.route === 'youtube'" title="Otherworld" url="https://www.youtube.com/watch?v=mWYwmM23Sqs" :count="state.count" />
+        <Home v-if="state.route === 'home'" title="Event Demo" @monarchUpdate="updateCount" @monarchReject="rejectCount" :count="state.count" />
+        <div v-if="!['youtube', 'home'].includes(state.route)">
+          <h1>Invalid Pane</h1>
+          <p>Page not found.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>

@@ -24,9 +24,11 @@ function doClick () {
 <template>
   <h1>{{ title }}</h1>
   <form>
-    <input type="text" v-model="stuff" />
-    <button type="button" @click="doClick">Increase Count</button>
-    <button type="button" @click="this.$emit('monarchReject')">Reject!</button>
+    <div class="row gx-2">
+      <div class="col"><input class="form-control" type="text" v-model="stuff"></div>
+      <div class="col-auto"><button class="btn btn-primary" type="button" @click="doClick">Increase Count</button></div>
+      <div class="col-auto"><button class="btn btn-primary" type="button" @click="this.$emit('monarchReject')">Reject!</button></div>
+    </div>
   </form>
 </template>
 
