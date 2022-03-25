@@ -11,6 +11,9 @@ const emit = defineEmits(['monarchUpdate', 'monarchReject']);
 const stuff = ref('stuff');
 
 function doClick () {
+  // You can pass stuff directly and give the parent a reactive reference, or
+  // you can snapshot the value here with 'let stuffCapture = stuff.value;' to
+  // capture the value at the time of the click.
   setTimeout(() => {
     emit('monarchUpdate', stuff);
   }, 5000);
