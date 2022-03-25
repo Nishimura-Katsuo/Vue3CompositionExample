@@ -21,6 +21,11 @@ function rejectCount () {
   count.value = 0;
 }
 
+// When app loads use default route if none is specified.
+if (!route.value) {
+  window.location.hash = '#home';
+}
+
 </script>
 
 <template>
