@@ -8,10 +8,9 @@ const playing = ref(false), currentTime = ref(0);
 
 const props = defineProps({
   title: String,
-  url: String,
   count: Number,
   visible: Boolean,
-}), videoCode = (props.url.value || props.url).slice(32);
+});
 
 window.isYTReady = new Promise(resolve => {
   window.onYouTubeIframeAPIReady = resolve;
@@ -28,7 +27,7 @@ onMounted(() => {
     player = new YT.Player('player', {
       width: '',
       height: '',
-      videoId: videoCode,
+      videoId: '9Q3_fB1LqV0',
       playerVars: {
         'playsinline': 1
       },

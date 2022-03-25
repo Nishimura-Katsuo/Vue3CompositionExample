@@ -55,7 +55,7 @@ function rejectCount () {
         <div>Count is: {{ state.count }}</div>
       </div>
       <div class="card-body">
-        <YoutubeEmbed :visible="state.route === 'youtube'" title="Otherworld" url="https://www.youtube.com/watch?v=mWYwmM23Sqs" :count="state.count" />
+        <YoutubeEmbed :visible="state.route === 'youtube'" title="Final Fantasy Guitar Collection" :count="state.count" />
         <Home v-if="state.route === 'home'" title="Event Demo" @monarchUpdate="updateCount" @monarchReject="rejectCount" :count="state.count" />
         <div v-if="!['youtube', 'home'].includes(state.route)">
           <h1>Invalid Pane</h1>
