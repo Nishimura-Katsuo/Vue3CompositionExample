@@ -16,7 +16,7 @@ function doClick () {
   // capture the value at the time of the click.
   setTimeout(() => {
     emit('monarchUpdate', stuff);
-  }, 5000);
+  }, 2000);
 }
 
 </script>

@@ -3,27 +3,46 @@
 import Home from './panes/Home.vue'
 import YoutubeEmbed from './panes/YoutubeEmbed.vue';
 
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
-const route = ref(window.location.hash.slice(1)),
-  count = ref(0);
+// Set up app state management
+function encode (data) {
+  return btoa(JSON.stringify(data));
+}
 
-window.addEventListener('hashchange', () => {
-  route.value = window.location.hash.slice(1);
+function decode (str) {
+  try {
+    return JSON.parse(atob(str));
+  }
+  catch (e) {
+    return null;
+  }
+}
+
+const state = ref(decode(window.location.hash.slice(1)) || {});
+
+function updateHash () {
+  let newhash = '#' + encode(state.value);
+  window.history.replaceState(null, '', window.location.href.split('#').shift() + newhash);
+  window.location.hash = newhash;
+}
+
+watch(state, (updateHash(), updateHash), { deep: true });
+
+window.addEventListener('hashchange', function () {
+  state.value = decode(window.location.hash.slice(1)) || state.value;
 });
 
+state.value.count = state.value.count || 0;
+state.value.route = state.value.route || 'home';
+
 function updateCount (stuff) {
-  count.value++;
+  state.value.count++;
   console.log('Stuff value:', stuff.value);
 }
 
 function rejectCount () {
-  count.value = 0;
-}
-
-// When app loads use default route if none is specified.
-if (!route.value) {
-  window.location.hash = '#home';
+  state.value.count = 0;
 }
 
 </script>
@@ -31,11 +50,11 @@ if (!route.value) {
 <template>
   <img alt="Vue logo" src="./assets/logo.png" />
   <div>
-    <a href="#home">Home</a> | <a href="#youtube">Youtube Pane</a> | <a href="#invalid">Invalid Pane</a>
+    <a href="javascript:;" @click="state.route = 'home'">Home</a> | <a href="javascript:;" @click="state.route = 'youtube'">Youtube Pane</a> | <a href="javascript:;" @click="state.route = 'invalid'">Invalid Pane</a>
   </div>
-  <div>Count is: {{ count }}</div>
-  <YoutubeEmbed v-if="route === 'youtube'" title="Otherworld" url="https://www.youtube.com/watch?v=mWYwmM23Sqs" :count="count" />
-  <Home v-else-if="route === 'home'" title="Event Demo" @monarchUpdate="updateCount" @monarchReject="rejectCount" :count="count" />
+  <div>Count is: {{ state.count }}</div>
+  <YoutubeEmbed v-if="state.route === 'youtube'" title="Otherworld" url="https://www.youtube.com/watch?v=mWYwmM23Sqs" :count="state.count" />
+  <Home v-else-if="state.route === 'home'" title="Event Demo" @monarchUpdate="updateCount" @monarchReject="rejectCount" :count="state.count" />
   <div v-else>
     <h1>Page Not Found</h1>
     <p>This is an invalid route.</p>
